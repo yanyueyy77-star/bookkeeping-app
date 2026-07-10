@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="个人记账Web应用，帮助您记录收支、管理分类、统计财务数据">
+  <meta name="theme-color" content="#4f46e5">
+  <title>我的记账本</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 应用容器：包含所有页面视图和交互组件 -->
+  <div id="app" role="application" aria-label="个人记账应用">
+    <!-- 顶部导航栏：固定定位，包含应用标题和主题切换按钮 -->
+    <header class="app-header" role="banner">
+      <div class="header-left">
+        <h1 class="app-title">我的记账本</h1>
+      </div>
+      <div class="header-right">
+        <button id="themeToggle" class="icon-btn" title="切换主题" aria-label="切换主题">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 主内容区域：单页应用视图容器，通过 JS 切换显示不同页面 -->
+    <main class="main-content" role="main" id="mainContent">
+      <!-- 首页概览视图：显示月度收支汇总、分类图表和最近账单 -->
+      <section id="dashboardView" class="view active" aria-label="首页概览">
+        <div class="section-header">
+          <h2>本月概览</h2>
+          <div class="month-selector">
+            <button id="prevMonth" class="icon-btn" aria-label="上个月">‹</button>
+            <span id="currentMonth">2026年7月</span>
+            <button id="nextMonth" class="icon-btn" aria-label="下个月">›</button>
+          </div>
+        </div>
+
+        <div class="summary-cards">
+          <div class="summary-card income">
+            <div class="card-label">总收入</div>
+            <div class="card-value" id="totalIncome">¥0.00</div>
+          </div>
+          <div class="summary-card expense">
+            <div class="card-label">总支出</div>
+            <div class="card-value" id="totalExpense">¥0.00</div>
+          </div>
+          <div class="summary-card balance">
+            <div class="card-label">结余</div>
+            <div class="card-value" id="totalBalance">¥0.00</div>
+          </div>
+        </div>
+
+        <div class="chart-section">
+          <h3>支出分类占比</h3>
+          <div id="categoryChart" class="chart-container">
+            <div class="empty-state">暂无支出数据</div>
+          </div>
+        </div>
+
+        <div class="recent-bills">
+          <div class="section-subheader">
+            <h3>最近账单</h3>
+            <button class="text-btn" data-nav="bills">查看全部</button>
+          </div>
+          <div id="recentBillsList" class="bill-list">
+            <div class="empty-state">暂无账单记录</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 账单列表视图：展示所有账单，支持搜索和筛选 -->
+      <section id="billsView" class="view" aria-label="账单明细">
+        <div class="section-header">
+          <h2>账单明细</h2>
+        </div>
+
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="搜索备注、分类..." class="search-input">
+          <button id="filterBtn" class="btn btn-secondary">筛选</button>
+        </div>
+
+        <div id="filterPanel" class="filter-panel hidden">
+          <div class="filter-group">
+            <label>时间范围</label>
+            <select id="filterPeriod" class="form-select">
+              <option value="all">全部</option>
+              <option value="today">今天</option>
+              <option value="week">本周</option>
+              <option value="month">本月</option>
+              <option value="year">本年</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>收支类型</label>
+            <select id="filterType" class="form-select">
+              <option value="all">全部</option>
+              <option value="expense">支出</option>
+              <option value="income">收入</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>分类</label>
+            <select id="filterCategory" class="form-select">
+              <option value="all">全部分类</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button id="resetFilter" class="btn btn-text">重置</button>
+            <button id="applyFilter" class="btn btn-primary">应用</button>
+          </div>
+        </div>
+
+        <div id="billsList" class="bill-list">
+          <div class="empty-state">暂无账单记录</div>
+        </div>
+      </section>
+
+      <!-- 分类管理视图：管理收支分类，支持添加、编辑、删除 -->
+      <section id="categoriesView" class="view" aria-label="分类管理">
+        <div class="section-header">
+          <h2>分类管理</h2>
+          <button id="addCategoryBtn" class="btn btn-primary">新增分类</button>
+        </div>
+
+        <div class="tab-bar">
+          <button class="tab-btn active" data-category-type="expense">支出分类</button>
+          <button class="tab-btn" data-category-type="income">收入分类</button>
+        </div>
+
+        <div id="categoriesList" class="categories-list">
+          <div class="empty-state">暂无分类</div>
+        </div>
+      </section>
+
+      <!-- 数据统计视图：展示收支统计、分类排行和占比分析 -->
+      <section id="statisticsView" class="view" aria-label="统计报表">
+        <div class="section-header">
+          <h2>统计报表</h2>
+          <div class="tab-bar inline">
+            <button class="stat-tab active" data-stat-period="month">本月</button>
+            <button class="stat-tab" data-stat-period="year">本年</button>
+            <button class="stat-tab" data-stat-period="all">全部</button>
+          </div>
+        </div>
+
+        <div class="summary-cards two-col">
+          <div class="summary-card income">
+            <div class="card-label">总收入</div>
+            <div class="card-value" id="statIncome">¥0.00</div>
+          </div>
+          <div class="summary-card expense">
+            <div class="card-label">总支出</div>
+            <div class="card-value" id="statExpense">¥0.00</div>
+          </div>
+        </div>
+
+        <div class="chart-section">
+          <h3>支出分类排行</h3>
+          <div id="rankingChart" class="ranking-list">
+            <div class="empty-state">暂无支出数据</div>
+          </div>
+        </div>
+
+        <div class="chart-section">
+          <h3>分类支出明细</h3>
+          <div id="statCategoryChart" class="chart-container">
+            <div class="empty-state">暂无支出数据</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 设置视图：主题切换、数据导入导出和清空数据 -->
+      <section id="settingsView" class="view" aria-label="设置">
+        <div class="section-header">
+          <h2>设置</h2>
+        </div>
+
+        <div class="settings-group">
+          <h3>数据管理</h3>
+          <div class="setting-item">
+            <span>导出数据 (JSON)</span>
+            <button id="exportData" class="btn btn-secondary">导出</button>
+          </div>
+          <div class="setting-item">
+            <span>导入数据</span>
+            <label class="btn btn-secondary file-input-label">
+              导入
+              <input type="file" id="importData" accept=".json" hidden>
+            </label>
+          </div>
+          <div class="setting-item danger">
+            <span>清空所有数据</span>
+            <button id="clearData" class="btn btn-danger">清空</button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>关于</h3>
+          <div class="setting-item">
+            <span>版本</span>
+            <span>v1.0</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 底部导航栏：移动端主要导航入口，包含首页、账单、记账、分类、统计 -->
+    <nav class="bottom-nav" role="navigation" aria-label="主导航">
+      <button class="nav-item active" data-nav="dashboard" aria-label="首页" aria-current="page">
+        <span class="nav-icon" aria-hidden="true">🏠</span>
+        <span class="nav-label">首页</span>
+      </button>
+      <button class="nav-item" data-nav="bills" aria-label="账单明细">
+        <span class="nav-icon" aria-hidden="true">📋</span>
+        <span class="nav-label">账单</span>
+      </button>
+      <button class="nav-item nav-add" id="addBillFab" title="记一笔" aria-label="新增账单">
+        <span class="nav-icon" aria-hidden="true">+</span>
+      </button>
+      <button class="nav-item" data-nav="categories" aria-label="分类管理">
+        <span class="nav-icon" aria-hidden="true">🏷️</span>
+        <span class="nav-label">分类</span>
+      </button>
+      <button class="nav-item" data-nav="statistics" aria-label="统计报表">
+        <span class="nav-icon" aria-hidden="true">📊</span>
+        <span class="nav-label">统计</span>
+      </button>
+    </nav>
+
+    <!-- 添加/编辑账单弹窗：包含账单表单，支持新增和编辑操作 -->
+    <div id="billModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="billModalTitle">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="billModalTitle">记一笔</h3>
+          <button class="modal-close" data-close-modal aria-label="关闭">&times;</button>
+        </div>
+        <form id="billForm" class="bill-form">
+          <input type="hidden" id="billId">
+          
+          <div class="form-group type-selector">
+            <button type="button" class="type-btn active" data-type="expense">支出</button>
+            <button type="button" class="type-btn" data-type="income">收入</button>
+            <input type="hidden" id="billType" value="expense">
+          </div>
+
+          <div class="form-group amount-group">
+            <label for="billAmount">金额</label>
+            <div class="amount-input-wrapper">
+              <span class="currency-symbol">¥</span>
+              <input type="number" id="billAmount" step="0.01" min="0.01" placeholder="0.00" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="billCategory">分类</label>
+            <select id="billCategory" class="form-select" required>
+              <option value="">请选择分类</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="billDate">日期</label>
+            <input type="date" id="billDate" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label for="billNote">备注</label>
+            <input type="text" id="billNote" class="form-input" placeholder="可选" maxlength="200">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-text" data-close-modal>取消</button>
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 分类表单弹窗：包含分类表单，支持新增和编辑分类 -->
+    <div id="categoryModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="categoryModalTitle">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="categoryModalTitle">新增分类</h3>
+          <button class="modal-close" data-close-modal aria-label="关闭">&times;</button>
+        </div>
+        <form id="categoryForm" class="category-form">
+          <input type="hidden" id="categoryId">
+          <input type="hidden" id="categoryTypeInput" value="expense">
+          
+          <div class="form-group">
+            <label for="categoryName">分类名称</label>
+            <input type="text" id="categoryName" class="form-input" placeholder="如：餐饮" required maxlength="20">
+          </div>
+
+          <div class="form-group">
+            <label>图标</label>
+            <div class="icon-picker" id="categoryIconPicker">
+              <!-- 图标选项由 JS 生成 -->
+            </div>
+            <input type="hidden" id="categoryIcon" value="📦">
+          </div>
+
+          <div class="form-group">
+            <label for="categoryColor">颜色</label>
+            <input type="color" id="categoryColor" class="form-color" value="#FF6B6B">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-text" data-close-modal>取消</button>
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 确认弹窗：用于删除、清空等危险操作的二次确认 -->
+    <div id="confirmModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+      <div class="modal-overlay"></div>
+      <div class="modal-content modal-sm">
+        <div class="modal-header">
+          <h3 id="confirmTitle">确认</h3>
+        </div>
+        <div class="modal-body">
+          <p id="confirmMessage">确定要执行此操作吗？</p>
+        </div>
+        <div class="form-actions">
+          <button id="confirmCancel" class="btn btn-text">取消</button>
+          <button id="confirmOk" class="btn btn-danger">确定</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 提示消息：显示操作成功或失败的轻量反馈 -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite">
+      <span id="toastMessage"></span>
+    </div>
+
+    <!-- 页面加载指示器：首次加载时显示，提升 perceived performance -->
+    <div id="pageLoader" class="page-loader" aria-hidden="true">
+      <div class="loader-spinner"></div>
+      <p>正在加载...</p>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
