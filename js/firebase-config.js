@@ -1,15 +1,15 @@
 /**
  * Firebase 配置
- * 请替换为您的 Firebase 项目配置
- * 获取方式：Firebase 控制台 → 项目设置 → 您的应用 → SDK 配置
+ * 项目：jizhang-53137
  */
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyA4wyaVOkhh4OJ9S4JR7SLvhuIQImLXL5E",
+  authDomain: "jizhang-53137.firebaseapp.com",
+  projectId: "jizhang-53137",
+  storageBucket: "jizhang-53137.firebasestorage.app",
+  messagingSenderId: "68082897783",
+  appId: "1:68082897783:web:faaba81af90937a4238772",
+  measurementId: "G-EL1DS1HEV5"
 };
 
 // 初始化 Firebase（兼容模式）
