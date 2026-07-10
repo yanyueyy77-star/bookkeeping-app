@@ -1,49 +1,70 @@
 /* ========================
-   全局变量与基础样式
+   Apple 极简风格 - 全局变量
    ======================== */
 
 :root {
-  --primary-color: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-light: #e0e7ff;
-  --danger-color: #ef4444;
-  --danger-hover: #dc2626;
-  --success-color: #10b981;
-  --warning-color: #f59e0b;
-  
-  --income-color: #10b981;
-  --expense-color: #ef4444;
-  --balance-color: #4f46e5;
-  
-  --bg-color: #f8fafc;
-  --surface-color: #ffffff;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --text-tertiary: #94a3b8;
-  --border-color: #e2e8f0;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  
-  --header-height: 56px;
-  --bottom-nav-height: 64px;
-  --max-content-width: 800px;
+  --apple-bg: #f5f5f7;
+  --apple-card: #ffffff;
+  --apple-text: #1d1d1f;
+  --apple-text-secondary: #86868b;
+  --apple-text-tertiary: #a1a1a6;
+  --apple-border: rgba(0, 0, 0, 0.06);
+  --apple-separator: rgba(0, 0, 0, 0.04);
+  --apple-blue: #0071e3;
+  --apple-blue-hover: #0077ed;
+  --apple-green: #34c759;
+  --apple-red: #ff3b30;
+  --apple-orange: #ff9500;
+  --apple-indigo: #5856d6;
+  --apple-purple: #af52de;
+  --apple-pink: #ff2d55;
+  --apple-teal: #5ac8fa;
+  --apple-yellow: #ffcc00;
+
+  --income-color: var(--apple-green);
+  --expense-color: var(--apple-red);
+  --balance-color: var(--apple-blue);
+
+  --bg-color: var(--apple-bg);
+  --surface-color: var(--apple-card);
+  --text-primary: var(--apple-text);
+  --text-secondary: var(--apple-text-secondary);
+  --text-tertiary: var(--apple-text-tertiary);
+  --border-color: var(--apple-border);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --header-height: 52px;
+  --bottom-nav-height: 72px;
+  --max-content-width: 680px;
+
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* 深色模式变量 */
 [data-theme="dark"] {
-  --bg-color: #0f172a;
-  --surface-color: #1e293b;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-tertiary: #64748b;
-  --border-color: #334155;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --apple-bg: #000000;
+  --apple-card: #1c1c1e;
+  --apple-text: #f5f5f7;
+  --apple-text-secondary: #8e8e93;
+  --apple-text-tertiary: #636366;
+  --apple-border: rgba(255, 255, 255, 0.08);
+  --apple-separator: rgba(255, 255, 255, 0.06);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
 * {
@@ -59,11 +80,13 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
-  line-height: 1.5;
+  line-height: 1.47059;
+  letter-spacing: -0.022em;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 button {
@@ -71,11 +94,12 @@ button {
   cursor: pointer;
   border: none;
   background: none;
+  color: inherit;
 }
 
-input, select {
+input, select, textarea {
   font-family: inherit;
-  font-size: 1rem;
+  color: inherit;
 }
 
 /* ========================
@@ -84,7 +108,7 @@ input, select {
 
 #app {
   min-height: 100vh;
-  padding-bottom: var(--bottom-nav-height);
+  padding-bottom: calc(var(--bottom-nav-height) + 16px);
 }
 
 .app-header {
@@ -93,25 +117,48 @@ input, select {
   left: 0;
   right: 0;
   height: var(--header-height);
-  background-color: var(--surface-color);
-  box-shadow: var(--shadow);
+  background-color: rgba(245, 245, 247, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--apple-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 20px;
   z-index: 100;
+  transition: background-color var(--transition-base);
+}
+
+[data-theme="dark"] .app-header {
+  background-color: rgba(0, 0, 0, 0.72);
 }
 
 .app-title {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: var(--primary-color);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-email {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .main-content {
-  padding-top: calc(var(--header-height) + 16px);
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-top: calc(var(--header-height) + 24px);
+  padding-left: 20px;
+  padding-right: 20px;
   max-width: var(--max-content-width);
   margin: 0 auto;
 }
@@ -119,34 +166,41 @@ input, select {
 /* 视图切换 */
 .view {
   display: none;
-  animation: fadeIn 0.2s ease;
+  opacity: 0;
+  transform: scale(0.985);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
 .view.active {
   display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* ========================
-   底部导航
+   底部导航 - iOS Tab Bar
    ======================== */
 
 .bottom-nav {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
   height: var(--bottom-nav-height);
-  background-color: var(--surface-color);
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md), 0 0 0 1px var(--apple-border);
   display: flex;
   align-items: center;
   justify-content: space-around;
   z-index: 100;
+  padding: 0 8px;
+}
+
+[data-theme="dark"] .bottom-nav {
+  background-color: rgba(28, 28, 30, 0.82);
 }
 
 .nav-item {
@@ -157,33 +211,51 @@ input, select {
   flex: 1;
   height: 100%;
   color: var(--text-tertiary);
-  transition: color 0.2s;
+  border-radius: var(--radius-md);
+  transition: color var(--transition-fast), transform var(--transition-fast), background-color var(--transition-fast);
 }
 
 .nav-item.active {
-  color: var(--primary-color);
+  color: var(--apple-blue);
+}
+
+.nav-item:active {
+  transform: scale(0.92);
 }
 
 .nav-icon {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
+  transition: transform var(--transition-fast);
+}
+
+.nav-item.active .nav-icon {
+  transform: translateY(-1px);
 }
 
 .nav-label {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .nav-add {
   position: relative;
-  top: -16px;
+  top: 0;
   width: 56px;
   height: 56px;
   flex: none;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  background: linear-gradient(135deg, var(--apple-blue), #42a5f5);
   border-radius: 50%;
   color: white;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 4px 16px rgba(0, 113, 227, 0.32);
+  margin: 0 4px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.nav-add:active {
+  transform: scale(0.88);
 }
 
 .nav-add .nav-icon {
@@ -197,128 +269,158 @@ input, select {
    ======================== */
 
 .icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   color: var(--text-secondary);
-  transition: background-color 0.2s;
+  background-color: transparent;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .icon-btn:hover {
-  background-color: var(--bg-color);
+  background-color: var(--apple-separator);
+}
+
+.icon-btn:active {
+  transform: scale(0.9);
 }
 
 .btn {
-  padding: 10px 18px;
+  padding: 12px 20px;
   border-radius: var(--radius-md);
   font-size: 0.95rem;
-  font-weight: 500;
-  transition: all 0.2s;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: all var(--transition-fast);
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
+.btn:active {
+  transform: scale(0.96);
+}
+
 .btn-primary {
-  background-color: var(--primary-color);
+  background-color: var(--apple-blue);
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
+  background-color: var(--apple-blue-hover);
 }
 
 .btn-secondary {
-  background-color: var(--bg-color);
+  background-color: var(--apple-card);
   color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  box-shadow: inset 0 0 0 1px var(--apple-border);
 }
 
 .btn-secondary:hover {
-  background-color: var(--border-color);
+  background-color: var(--apple-separator);
 }
 
 .btn-danger {
-  background-color: var(--danger-color);
+  background-color: var(--apple-red);
   color: white;
 }
 
-.btn-danger:hover {
-  background-color: var(--danger-hover);
-}
-
 .btn-text {
-  color: var(--text-secondary);
+  color: var(--apple-blue);
+  font-weight: 600;
+  padding: 12px 14px;
 }
 
 .btn-text:hover {
-  color: var(--text-primary);
-  background-color: var(--bg-color);
+  background-color: rgba(0, 113, 227, 0.06);
 }
 
 .btn-sm {
-  padding: 6px 12px;
-  font-size: 0.8rem;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-block {
+  width: 100%;
 }
 
 .text-btn {
-  color: var(--primary-color);
+  color: var(--apple-blue);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.text-btn:hover {
+  background-color: rgba(0, 113, 227, 0.06);
 }
 
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .section-header h2 {
-  font-size: 1.35rem;
+  font-size: 1.75rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 .section-subheader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .section-subheader h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .month-selector {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
+  gap: 6px;
+  font-weight: 700;
   color: var(--text-primary);
+  font-size: 0.95rem;
 }
 
 .empty-state {
   text-align: center;
-  padding: 40px 20px;
+  padding: 48px 24px;
   color: var(--text-tertiary);
   font-size: 0.95rem;
 }
 
+.empty-state::before {
+  content: '📭';
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
 /* ========================
-   首页概览
+   首页概览 - Apple Promo Cards
    ======================== */
 
 .summary-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .summary-cards.two-col {
@@ -328,20 +430,29 @@ input, select {
 .summary-card {
   background-color: var(--surface-color);
   border-radius: var(--radius-lg);
-  padding: 16px 12px;
-  box-shadow: var(--shadow);
+  padding: 18px 12px;
+  box-shadow: var(--shadow-sm);
   text-align: center;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .summary-card .card-label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
 }
 
 .summary-card .card-value {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -359,19 +470,62 @@ input, select {
   color: var(--balance-color);
 }
 
+.promo-card {
+  background: linear-gradient(135deg, #1d1d1f 0%, #434344 100%);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  color: white;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.promo-card h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+
+.promo-card .promo-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: 4px;
+}
+
+.promo-card .promo-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
 .chart-section {
   background-color: var(--surface-color);
   border-radius: var(--radius-lg);
-  padding: 16px;
-  box-shadow: var(--shadow);
-  margin-bottom: 20px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
 }
 
 .chart-section h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 18px;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
 .chart-container {
@@ -379,11 +533,11 @@ input, select {
 }
 
 .recent-bills {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 /* ========================
-   账单列表
+   账单列表 - iOS 列表风格
    ======================== */
 
 .search-bar {
@@ -395,22 +549,26 @@ input, select {
 .search-input {
   flex: 1;
   padding: 12px 16px;
-  border: 1px solid var(--border-color);
+  border: none;
   border-radius: var(--radius-md);
   background-color: var(--surface-color);
+  box-shadow: inset 0 0 0 1px var(--apple-border);
   color: var(--text-primary);
   outline: none;
+  font-size: 1rem;
+  transition: box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
 .search-input:focus {
-  border-color: var(--primary-color);
+  box-shadow: inset 0 0 0 2px var(--apple-blue);
+  background-color: var(--surface-color);
 }
 
 .filter-panel {
   background-color: var(--surface-color);
   border-radius: var(--radius-lg);
-  padding: 16px;
-  box-shadow: var(--shadow);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
   margin-bottom: 16px;
 }
 
@@ -424,9 +582,11 @@ input, select {
 
 .filter-group label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--text-secondary);
   margin-bottom: 6px;
+  letter-spacing: -0.01em;
 }
 
 .filter-actions {
@@ -439,12 +599,12 @@ input, select {
 .bill-list {
   background-color: var(--surface-color);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
 .bill-group {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--apple-separator);
 }
 
 .bill-group:last-child {
@@ -452,19 +612,21 @@ input, select {
 }
 
 .bill-group-header {
-  padding: 12px 16px;
-  background-color: var(--bg-color);
-  font-size: 0.85rem;
+  padding: 10px 18px;
+  background-color: transparent;
+  font-size: 0.8rem;
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .bill-item {
   display: flex;
   align-items: center;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border-color);
-  transition: background-color 0.15s;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--apple-separator);
+  transition: background-color var(--transition-fast);
+  animation: slideInUp 0.4s ease backwards;
 }
 
 .bill-item:last-child {
@@ -472,17 +634,17 @@ input, select {
 }
 
 .bill-item:hover {
-  background-color: var(--bg-color);
+  background-color: var(--apple-separator);
 }
 
 .bill-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   margin-right: 14px;
   flex-shrink: 0;
 }
@@ -493,14 +655,15 @@ input, select {
 }
 
 .bill-title {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
+  font-size: 0.95rem;
 }
 
 .bill-meta {
   font-size: 0.8rem;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
 
 .bill-amount {
@@ -508,6 +671,7 @@ input, select {
   font-size: 1.05rem;
   margin-left: 12px;
   white-space: nowrap;
+  letter-spacing: -0.02em;
 }
 
 .bill-amount.income {
@@ -525,8 +689,9 @@ input, select {
 }
 
 .bill-actions .btn {
-  padding: 6px 12px;
+  padding: 7px 12px;
   font-size: 0.8rem;
+  font-weight: 600;
 }
 
 /* ========================
@@ -535,32 +700,31 @@ input, select {
 
 .tab-bar {
   display: flex;
-  background-color: var(--surface-color);
+  background-color: var(--apple-separator);
   border-radius: var(--radius-md);
   padding: 4px;
-  margin-bottom: 16px;
-  box-shadow: var(--shadow);
+  margin-bottom: 18px;
 }
 
 .tab-bar.inline {
-  background-color: transparent;
-  box-shadow: none;
-  padding: 0;
+  background-color: var(--apple-separator);
+  margin-bottom: 0;
 }
 
 .tab-btn, .stat-tab {
   flex: 1;
-  padding: 10px;
+  padding: 9px;
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-secondary);
-  transition: all 0.2s;
+  transition: all var(--transition-fast);
 }
 
 .tab-btn.active, .stat-tab.active {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-xs);
 }
 
 .stat-tab {
@@ -571,25 +735,30 @@ input, select {
 .categories-list {
   background-color: var(--surface-color);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
 .category-item {
   display: flex;
   align-items: center;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--apple-separator);
+  transition: background-color var(--transition-fast);
 }
 
 .category-item:last-child {
   border-bottom: none;
 }
 
+.category-item:hover {
+  background-color: var(--apple-separator);
+}
+
 .category-icon {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -600,16 +769,18 @@ input, select {
 
 .category-name {
   flex: 1;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 .category-badge {
-  font-size: 0.75rem;
-  padding: 3px 8px;
-  border-radius: 12px;
-  background-color: var(--bg-color);
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 100px;
+  background-color: var(--apple-separator);
   color: var(--text-secondary);
   margin-right: 12px;
+  font-weight: 600;
 }
 
 .category-actions {
@@ -618,8 +789,9 @@ input, select {
 }
 
 .category-actions .btn {
-  padding: 5px 10px;
+  padding: 6px 11px;
   font-size: 0.75rem;
+  font-weight: 600;
 }
 
 /* ========================
@@ -629,26 +801,28 @@ input, select {
 .ranking-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .ranking-item {
   display: flex;
   align-items: center;
   gap: 12px;
+  animation: slideInUp 0.4s ease backwards;
 }
 
 .ranking-rank {
-  width: 24px;
+  width: 22px;
   text-align: center;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-tertiary);
+  font-size: 0.85rem;
 }
 
 .ranking-icon {
   width: 36px;
   height: 36px;
-  border-radius: 50%;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -660,13 +834,14 @@ input, select {
 }
 
 .ranking-name {
-  font-weight: 500;
-  margin-bottom: 4px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
 }
 
 .ranking-bar {
-  height: 6px;
-  background-color: var(--bg-color);
+  height: 5px;
+  background-color: var(--apple-separator);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -674,7 +849,7 @@ input, select {
 .ranking-bar-fill {
   height: 100%;
   border-radius: 3px;
-  transition: width 0.5s ease;
+  transition: width 0.6s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
 .ranking-amount {
@@ -684,11 +859,13 @@ input, select {
 .ranking-amount .amount {
   font-weight: 700;
   color: var(--expense-color);
+  font-size: 0.95rem;
 }
 
 .ranking-amount .percent {
-  font-size: 0.8rem;
-  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .donut-chart {
@@ -708,8 +885,9 @@ input, select {
 }
 
 .donut-center .label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .donut-center .value {
@@ -718,10 +896,10 @@ input, select {
 }
 
 .legend-list {
-  margin-top: 20px;
+  margin-top: 24px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 12px;
 }
 
 .legend-item {
@@ -731,9 +909,9 @@ input, select {
 }
 
 .legend-color {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
   margin-right: 8px;
   flex-shrink: 0;
 }
@@ -741,10 +919,11 @@ input, select {
 .legend-name {
   flex: 1;
   color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .legend-value {
-  font-weight: 500;
+  font-weight: 700;
 }
 
 /* ========================
@@ -754,17 +933,18 @@ input, select {
 .settings-group {
   background-color: var(--surface-color);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  padding: 16px;
-  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  padding: 6px 18px;
+  margin-bottom: 24px;
 }
 
 .settings-group h3 {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
-  margin-bottom: 12px;
+  margin: 14px 0 6px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.04em;
+  font-weight: 700;
 }
 
 .setting-item {
@@ -772,7 +952,9 @@ input, select {
   align-items: center;
   justify-content: space-between;
   padding: 14px 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--apple-separator);
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .setting-item:last-child {
@@ -780,7 +962,7 @@ input, select {
 }
 
 .setting-item.danger {
-  color: var(--danger-color);
+  color: var(--apple-red);
 }
 
 .file-input-label {
@@ -788,7 +970,7 @@ input, select {
 }
 
 /* ========================
-   表单与弹窗
+   底部 Sheet 弹窗
    ======================== */
 
 .modal {
@@ -801,10 +983,17 @@ input, select {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.25s ease, visibility 0.25s;
 }
 
 .modal.hidden {
-  display: none;
+  display: flex !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .modal-overlay {
@@ -813,44 +1002,65 @@ input, select {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color var(--transition-base);
+}
+
+.modal:not(.hidden) .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.35);
 }
 
 .modal-content {
   position: relative;
   background-color: var(--surface-color);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   width: 100%;
   max-width: var(--max-content-width);
-  max-height: 90vh;
+  max-height: 92vh;
   overflow-y: auto;
-  animation: slideUp 0.25s ease;
+  transform: translateY(100%);
+  transition: transform var(--transition-base);
   z-index: 1;
+}
+
+.modal:not(.hidden) .modal-content {
+  transform: translateY(0);
 }
 
 .modal-sm {
   border-radius: var(--radius-lg);
-  margin: auto 20px;
+  margin: auto 20px 40px;
   max-height: none;
-  animation: fadeIn 0.2s ease;
+  transform: translateY(20px) scale(0.96);
+  opacity: 0;
+  transition: transform var(--transition-base), opacity var(--transition-base);
 }
 
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+.modal:not(.hidden) .modal-sm {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 5px;
+  background-color: var(--text-tertiary);
+  border-radius: 100px;
+  margin: 10px auto 6px;
+  opacity: 0.4;
 }
 
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 14px 20px 10px;
 }
 
 .modal-header h3 {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .modal-close {
@@ -862,10 +1072,16 @@ input, select {
   justify-content: center;
   font-size: 1.5rem;
   color: var(--text-secondary);
+  background-color: var(--apple-separator);
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
 }
 
 .modal-close:hover {
-  background-color: var(--bg-color);
+  background-color: var(--apple-border);
+}
+
+.modal-close:active {
+  transform: scale(0.9);
 }
 
 .modal-body {
@@ -873,137 +1089,294 @@ input, select {
 }
 
 .bill-form, .category-form {
-  padding: 20px;
+  padding: 0 20px 24px;
 }
 
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .form-group label {
   display: block;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 700;
   color: var(--text-secondary);
   margin-bottom: 8px;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
 }
 
 .form-input, .form-select {
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--border-color);
+  padding: 13px 16px;
+  border: none;
   border-radius: var(--radius-md);
-  background-color: var(--bg-color);
+  background-color: var(--apple-separator);
   color: var(--text-primary);
   outline: none;
-  transition: border-color 0.2s;
+  font-size: 1rem;
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .form-input:focus, .form-select:focus {
-  border-color: var(--primary-color);
+  background-color: var(--surface-color);
+  box-shadow: inset 0 0 0 2px var(--apple-blue);
 }
 
-.form-color {
-  width: 100%;
-  height: 44px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  background-color: var(--bg-color);
-  cursor: pointer;
-}
-
-.type-selector {
+/* Segmented Control */
+.segmented-control {
   display: flex;
-  background-color: var(--bg-color);
+  background-color: var(--apple-separator);
   border-radius: var(--radius-md);
-  padding: 4px;
+  padding: 3px;
+  position: relative;
 }
 
-.type-btn {
+.segment-btn {
   flex: 1;
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: calc(var(--radius-md) - 3px);
+  font-size: 0.95rem;
+  font-weight: 700;
   color: var(--text-secondary);
-  transition: all 0.2s;
+  text-align: center;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  position: relative;
+  z-index: 1;
 }
 
-.type-btn.active[data-type="expense"] {
-  background-color: var(--expense-color);
-  color: white;
+.segment-btn.active {
+  color: var(--text-primary);
+  background-color: var(--surface-color);
+  box-shadow: var(--shadow-xs);
 }
 
-.type-btn.active[data-type="income"] {
-  background-color: var(--income-color);
-  color: white;
+.segment-btn:active {
+  transform: scale(0.96);
+}
+
+/* 金额输入 */
+.amount-group {
+  text-align: center;
 }
 
 .amount-input-wrapper {
   display: flex;
   align-items: center;
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-md);
-  background-color: var(--bg-color);
-  padding: 0 14px;
-}
-
-.amount-input-wrapper:focus-within {
-  border-color: var(--primary-color);
+  justify-content: center;
+  padding: 8px 0;
 }
 
 .currency-symbol {
-  font-size: 1.4rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--text-secondary);
-  margin-right: 8px;
+  color: var(--text-primary);
+  margin-right: 6px;
+  letter-spacing: -0.03em;
 }
 
 .amount-input-wrapper input {
-  flex: 1;
-  padding: 14px 0;
+  flex: 0 1 auto;
+  min-width: 120px;
+  max-width: 100%;
+  padding: 0;
   border: none;
   background: transparent;
-  font-size: 1.5rem;
+  font-size: 3rem;
   font-weight: 700;
   color: var(--text-primary);
   outline: none;
+  text-align: center;
+  letter-spacing: -0.04em;
+  transition: color var(--transition-fast);
 }
 
+.amount-input-wrapper input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.amount-input-wrapper input:focus {
+  color: var(--apple-blue);
+}
+
+/* Category Chips */
+.category-chips {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px 2px 12px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.category-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 100px;
+  background-color: var(--apple-separator);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  border: 2px solid transparent;
+}
+
+.category-chip:hover {
+  background-color: var(--apple-border);
+}
+
+.category-chip:active {
+  transform: scale(0.95);
+}
+
+.category-chip.active {
+  background-color: var(--apple-blue);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
+}
+
+.category-chip .chip-icon {
+  font-size: 1.1rem;
+}
+
+/* 日期输入美化 */
+.date-input-wrapper {
+  position: relative;
+}
+
+.date-input-wrapper input[type="date"] {
+  width: 100%;
+  padding: 13px 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: var(--apple-separator);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  outline: none;
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.date-input-wrapper input[type="date"]:focus {
+  background-color: var(--surface-color);
+  box-shadow: inset 0 0 0 2px var(--apple-blue);
+}
+
+.date-input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.date-input-wrapper input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* 备注输入 */
+.note-input {
+  width: 100%;
+  padding: 14px 4px;
+  border: none;
+  border-bottom: 2px solid var(--apple-border);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.note-input:focus {
+  border-color: var(--apple-blue);
+}
+
+.note-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* 图标选择 Grid */
 .icon-picker {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
+  gap: 10px;
 }
 
 .icon-option {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
-  background-color: var(--bg-color);
+  font-size: 1.45rem;
+  background-color: var(--apple-separator);
   border: 2px solid transparent;
-  transition: all 0.2s;
+  transition: all var(--transition-fast);
 }
 
 .icon-option:hover {
-  background-color: var(--primary-light);
+  background-color: var(--apple-border);
+  transform: scale(1.05);
 }
 
 .icon-option.selected {
-  border-color: var(--primary-color);
-  background-color: var(--primary-light);
+  border-color: var(--apple-blue);
+  background-color: rgba(0, 113, 227, 0.1);
+  transform: scale(1.05);
+}
+
+/* 简化颜色选择 */
+.color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.color-option {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.color-option:hover {
+  transform: scale(1.12);
+}
+
+.color-option.selected {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 2px var(--surface-color), 0 0 0 4px var(--apple-blue);
+}
+
+.color-option.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-color);
+  margin-top: 28px;
+  padding-top: 0;
 }
 
 /* ========================
@@ -1014,100 +1387,55 @@ input, select {
   position: fixed;
   top: calc(var(--header-height) + 12px);
   left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--text-primary);
+  transform: translateX(-50%) translateY(-20px);
+  background-color: rgba(29, 29, 31, 0.92);
+  backdrop-filter: blur(12px);
   color: white;
   padding: 12px 24px;
-  border-radius: var(--radius-xl);
+  border-radius: 100px;
   box-shadow: var(--shadow-lg);
   z-index: 300;
   font-size: 0.9rem;
-  transition: opacity 0.3s, transform 0.3s;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+  pointer-events: none;
 }
 
 .toast.hidden {
   opacity: 0;
   transform: translateX(-50%) translateY(-20px);
-  pointer-events: none;
+}
+
+.toast:not(.hidden) {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* ========================
-   响应式设计
+   动画关键帧
    ======================== */
 
-@media (min-width: 768px) {
-  .main-content {
-    padding-left: 24px;
-    padding-right: 24px;
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
   }
-
-  .summary-card {
-    padding: 20px 16px;
-  }
-
-  .summary-card .card-value {
-    font-size: 1.35rem;
-  }
-
-  .modal {
-    align-items: center;
-  }
-
-  .modal-content {
-    border-radius: var(--radius-lg);
-    max-height: 85vh;
-    animation: fadeIn 0.2s ease;
-  }
-
-  .bottom-nav {
-    max-width: var(--max-content-width);
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 360px) {
-  .summary-cards {
-    gap: 8px;
-  }
-
-  .summary-card {
-    padding: 12px 8px;
-  }
-
-  .summary-card .card-value {
-    font-size: 0.95rem;
-  }
-
-  .nav-label {
-    font-size: 0.65rem;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-
-/* 打印样式 */
-@media print {
-  .app-header,
-  .bottom-nav,
-  .btn,
-  .icon-btn {
-    display: none !important;
-  }
-
-  .main-content {
-    padding-top: 0;
-  }
-}
-
 
 /* ========================
-   用户体验优化补充样式
+   加载与骨架屏
    ======================== */
 
-/*
- * 页面加载指示器
- * 首次加载时显示，提升用户感知性能
- */
 .page-loader {
   position: fixed;
   top: 0;
@@ -1133,13 +1461,14 @@ input, select {
   margin-top: 16px;
   color: var(--text-secondary);
   font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .loader-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid var(--border-color);
-  border-top-color: var(--primary-color);
+  border: 3px solid var(--apple-border);
+  border-top-color: var(--apple-blue);
   border-radius: 50%;
   animation: spinner 0.8s linear infinite;
 }
@@ -1148,16 +1477,12 @@ input, select {
   to { transform: rotate(360deg); }
 }
 
-/*
- * 骨架屏动画
- * 用于数据加载时的占位效果
- */
 .skeleton {
   background: linear-gradient(
     90deg,
-    var(--bg-color) 25%,
+    var(--apple-separator) 25%,
     var(--surface-color) 50%,
-    var(--bg-color) 75%
+    var(--apple-separator) 75%
   );
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;
@@ -1169,373 +1494,177 @@ input, select {
   100% { background-position: -200% 0; }
 }
 
-/*
- * 焦点样式优化
- * 使用 :focus-visible 仅在键盘导航时显示焦点环
- */
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-.icon-option:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
+/* ========================
+   响应式设计
+   ======================== */
 
-.type-btn:focus-visible,
-.tab-btn:focus-visible,
-.stat-tab:focus-visible {
-  outline-offset: -2px;
-}
-
-/* 移除移动端点击高亮的蓝色背景 */
-button,
-input,
-select,
-.icon-option {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/*
- * 移动端触控优化
- * 确保所有可点击元素的最小触控区域不小于 44x44px
- */
-.nav-item,
-.icon-btn,
-.modal-close,
-.type-btn,
-.tab-btn,
-.stat-tab,
-.icon-option {
-  min-height: 44px;
-  min-width: 44px;
-}
-
-/*
- * 视图切换动画增强
- * 使用 will-change 提示浏览器优化动画性能
- */
-.view {
-  will-change: opacity, transform;
-}
-
-/*
- * 列表项触控反馈
- * 使用:active替代:hover在移动端的体验
- */
-.bill-item:active,
-.category-item:active,
-.nav-item:active,
-.type-btn:active,
-.tab-btn:active,
-.stat-tab:active,
-.icon-option:active,
-.btn:not(:disabled):active {
-  transform: scale(0.98);
-  transition: transform 0.1s ease;
-}
-
-.nav-add:active {
-  transform: scale(0.95);
-}
-
-/*
- * 模态框动画性能优化
- * 仅对transform和opacity进行动画，避免触发重排
- */
-.modal-overlay {
-  will-change: opacity;
-  transition: opacity 0.25s ease;
-}
-
-.modal-content {
-  will-change: transform, opacity;
-}
-
-/*
- * 提示消息动画增强
- */
-.toast {
-  will-change: opacity, transform;
-}
-
-/*
- * 超小屏幕优化（320px - 375px）
- */
-@media (max-width: 375px) {
-  :root {
-    --header-height: 52px;
-    --bottom-nav-height: 60px;
-  }
-
-  .app-title {
-    font-size: 1.1rem;
-  }
-
+@media (min-width: 768px) {
   .main-content {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
+  .summary-card {
+    padding: 22px 16px;
+  }
+
+  .summary-card .card-value {
+    font-size: 1.3rem;
+  }
+
+  .bottom-nav {
+    max-width: 520px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  .modal {
+    align-items: center;
+  }
+
+  .modal-content {
+    border-radius: var(--radius-xl);
+    max-height: 88vh;
+    transform: translateY(40px) scale(0.96);
+    opacity: 0;
+  }
+
+  .modal:not(.hidden) .modal-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  .sheet-handle {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
   .summary-cards {
     gap: 8px;
   }
 
   .summary-card {
-    padding: 12px 8px;
-    border-radius: var(--radius-md);
-  }
-
-  .summary-card .card-label {
-    font-size: 0.7rem;
+    padding: 14px 8px;
   }
 
   .summary-card .card-value {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
-  .chart-section,
-  .settings-group,
-  .bill-list,
-  .categories-list {
-    border-radius: var(--radius-md);
-  }
-
-  .section-header h2 {
-    font-size: 1.15rem;
-  }
-
-  .month-selector {
-    font-size: 0.9rem;
+  .amount-input-wrapper input {
+    font-size: 2.4rem;
   }
 
   .nav-label {
     font-size: 0.6rem;
   }
 
-  .nav-icon {
-    font-size: 1.1rem;
-  }
-
-  .nav-add {
-    width: 48px;
-    height: 48px;
-    top: -12px;
-  }
-
-  .nav-add .nav-icon {
-    font-size: 1.5rem;
-  }
-
-  .bill-item {
-    padding: 12px;
-  }
-
-  .bill-icon {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-    margin-right: 10px;
-  }
-
-  .bill-title {
-    font-size: 0.95rem;
-  }
-
-  .bill-meta {
-    font-size: 0.75rem;
-  }
-
-  .bill-amount {
-    font-size: 0.95rem;
-  }
-
-  .bill-actions {
-    margin-left: 8px;
-    gap: 4px;
-  }
-
-  .bill-actions .btn {
-    padding: 5px 8px;
-    font-size: 0.7rem;
-  }
-
-  .category-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 1.1rem;
-    margin-right: 10px;
-  }
-
-  .category-name {
-    font-size: 0.95rem;
-  }
-
-  .category-badge {
-    font-size: 0.7rem;
-    padding: 2px 6px;
-  }
-
-  .category-actions .btn {
-    padding: 4px 8px;
-    font-size: 0.7rem;
-  }
-
   .icon-picker {
     grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
+    gap: 8px;
   }
 
   .icon-option {
     width: 40px;
     height: 40px;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
   }
 }
 
-/*
- * 小屏幕手机优化（375px - 480px）
- */
-@media (min-width: 376px) and (max-width: 480px) {
-  .summary-card .card-value {
-    font-size: 1rem;
+/* 打印样式 */
+@media print {
+  .app-header,
+  .bottom-nav,
+  .btn,
+  .icon-btn {
+    display: none !important;
   }
 
-  .bill-actions .btn {
-    padding: 6px 10px;
-    font-size: 0.75rem;
-  }
-}
-
-/*
- * 平板及桌面端优化
- */
-@media (min-width: 768px) {
-  .summary-cards {
-    gap: 16px;
-  }
-
-  .summary-card {
-    padding: 24px 20px;
-  }
-
-  .summary-card .card-value {
-    font-size: 1.5rem;
-  }
-
-  .bill-actions {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  .bill-item:hover .bill-actions {
-    opacity: 1;
-  }
-
-  .category-actions {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  .category-item:hover .category-actions {
-    opacity: 1;
+  .main-content {
+    padding-top: 0;
   }
 }
 
-/*
- * 刘海屏/全面屏安全区域适配
- * 确保底部导航不会被系统手势条遮挡
- */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  #app {
-    padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
-  }
+/* ========================
+   辅助与优化
+   ======================== */
 
-  .bottom-nav {
-    height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .modal-content {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.icon-option:focus-visible,
+.category-chip:focus-visible,
+.segment-btn:focus-visible,
+.color-option:focus-visible {
+  outline: 2px solid var(--apple-blue);
+  outline-offset: 2px;
 }
 
-/*
- * 减少动画偏好支持
- * 尊重用户的系统设置，减少或禁用非必要动画
- */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  .view {
-    animation: none;
-  }
-
-  .modal-content {
-    animation: none;
-  }
+.segment-btn:focus-visible,
+.tab-btn:focus-visible,
+.stat-tab:focus-visible {
+  outline-offset: -2px;
 }
 
-/*
- * 表单在移动端的可用性优化
- * 增大输入框字体，防止 iOS 自动缩放
- */
-input[type="text"],
-input[type="number"],
-input[type="date"],
+button,
+input,
 select,
-textarea {
-  font-size: 16px;
+.icon-option,
+.category-chip,
+.segment-btn,
+.color-option {
+  -webkit-tap-highlight-color: transparent;
 }
 
-@media (min-width: 768px) {
-  input[type="text"],
-  input[type="number"],
-  input[type="date"],
-  select,
-  textarea {
-    font-size: 1rem;
-  }
+.nav-item,
+.icon-btn,
+.modal-close,
+.segment-btn,
+.tab-btn,
+.stat-tab,
+.icon-option,
+.category-chip,
+.color-option {
+  min-height: 44px;
+  min-width: 44px;
 }
 
-/*
- * 搜索输入框优化
- * 添加清除按钮样式和搜索图标
- */
-.search-input {
-  -webkit-appearance: none;
-  appearance: none;
+.bill-item,
+.category-item {
+  animation: slideInUp 0.45s ease backwards;
 }
 
-.search-input::-webkit-search-decoration,
-.search-input::-webkit-search-cancel-button,
-.search-input::-webkit-search-results-button,
-.search-input::-webkit-search-results-decoration {
-  -webkit-appearance: none;
+.bill-list .bill-item:nth-child(1) { animation-delay: 0ms; }
+.bill-list .bill-item:nth-child(2) { animation-delay: 40ms; }
+.bill-list .bill-item:nth-child(3) { animation-delay: 80ms; }
+.bill-list .bill-item:nth-child(4) { animation-delay: 120ms; }
+.bill-list .bill-item:nth-child(5) { animation-delay: 160ms; }
+.bill-list .bill-item:nth-child(6) { animation-delay: 200ms; }
+.bill-list .bill-item:nth-child(7) { animation-delay: 240ms; }
+.bill-list .bill-item:nth-child(8) { animation-delay: 280ms; }
+
+.modal-overlay {
+  will-change: opacity;
 }
 
-/*
- * 模态框打开时禁止背景滚动
- */
+.modal-content {
+  will-change: transform, opacity;
+}
+
+.toast {
+  will-change: opacity, transform;
+}
+
 body.modal-open {
   overflow: hidden;
   touch-action: none;
 }
 
-/*
- * 加载状态样式
- * 用于按钮提交时的禁用状态
- */
 .btn:disabled,
 .btn.is-loading {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -1551,31 +1680,28 @@ body.modal-open {
   animation: spinner 0.8s linear infinite;
 }
 
-/*
- * 空状态图标增强
- */
-.empty-state::before {
-  content: '📭';
-  display: block;
-  font-size: 3rem;
-  margin-bottom: 12px;
-  opacity: 0.6;
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  font-size: 16px;
 }
 
-/*
- * 提升滚动性能
- * 使用 contain 属性限制重绘范围
- */
-.bill-list,
-.categories-list,
-.ranking-list {
-  contain: layout style;
+.search-input {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-/*
- * 金额输入框在移动端的显示优化
- * 移除数字输入框的上下箭头
- */
+.search-input::-webkit-search-decoration,
+.search-input::-webkit-search-cancel-button,
+.search-input::-webkit-search-results-button,
+.search-input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -1584,4 +1710,43 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  #app {
+    padding-bottom: calc(var(--bottom-nav-height) + 16px + env(safe-area-inset-bottom));
+  }
+
+  .bottom-nav {
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+  }
+
+  .modal-content {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .view {
+    transition: none;
+  }
+
+  .modal-content {
+    transition: none;
+  }
 }

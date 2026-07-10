@@ -461,6 +461,7 @@ const elements = {
   totalIncome: document.getElementById('totalIncome'),
   totalExpense: document.getElementById('totalExpense'),
   totalBalance: document.getElementById('totalBalance'),
+  totalBalanceSmall: document.getElementById('totalBalanceSmall'),
   categoryChart: document.getElementById('categoryChart'),
   recentBillsList: document.getElementById('recentBillsList'),
   searchInput: document.getElementById('searchInput'),
@@ -492,9 +493,10 @@ const elements = {
   billType: document.getElementById('billType'),
   billAmount: document.getElementById('billAmount'),
   billCategory: document.getElementById('billCategory'),
+  billCategoryChips: document.getElementById('billCategoryChips'),
   billDate: document.getElementById('billDate'),
   billNote: document.getElementById('billNote'),
-  typeBtns: document.querySelectorAll('.type-btn[data-type]'),
+  typeBtns: document.querySelectorAll('.segment-btn[data-type]'),
   categoryModal: document.getElementById('categoryModal'),
   categoryModalTitle: document.getElementById('categoryModalTitle'),
   categoryForm: document.getElementById('categoryForm'),
@@ -504,6 +506,7 @@ const elements = {
   categoryIcon: document.getElementById('categoryIcon'),
   categoryColor: document.getElementById('categoryColor'),
   categoryIconPicker: document.getElementById('categoryIconPicker'),
+  categoryColorPicker: document.getElementById('categoryColorPicker'),
   confirmModal: document.getElementById('confirmModal'),
   confirmTitle: document.getElementById('confirmTitle'),
   confirmMessage: document.getElementById('confirmMessage'),
@@ -585,6 +588,9 @@ function renderDashboard() {
   elements.totalIncome.textContent = formatMoney(income);
   elements.totalExpense.textContent = formatMoney(expense);
   elements.totalBalance.textContent = formatMoney(income - expense);
+  if (elements.totalBalanceSmall) {
+    elements.totalBalanceSmall.textContent = formatMoney(income - expense);
+  }
 
   renderCategoryChart(filteredBills, elements.categoryChart);
   renderRecentBills(filteredBills);
@@ -808,11 +814,13 @@ function openBillModal(bill = null) {
   const type = isEdit ? bill.type : 'expense';
   setBillType(type);
 
-  renderBillCategoryOptions(type);
-
   if (isEdit && bill.categoryId) {
     elements.billCategory.value = bill.categoryId;
+  } else {
+    elements.billCategory.value = '';
   }
+
+  renderBillCategoryOptions(type);
 
   elements.billModal.classList.remove('hidden');
   lockBodyScroll(true);
@@ -833,13 +841,30 @@ function renderBillCategoryOptions(type) {
   const categories = getCategoriesByType(type);
   const currentValue = elements.billCategory.value;
 
-  elements.billCategory.innerHTML = '<option value="">请选择分类</option>' +
-    categories.map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
+  if (categories.length === 0) {
+    elements.billCategoryChips.innerHTML = '<span class="empty-state" style="padding: 16px 0;">暂无分类</span>';
+    elements.billCategory.value = '';
+    return;
+  }
+
+  elements.billCategoryChips.innerHTML = categories.map(c => `
+    <button type="button" class="category-chip ${c.id === currentValue ? 'active' : ''}" data-value="${c.id}">
+      <span class="chip-icon">${c.icon}</span>
+      <span>${c.name}</span>
+    </button>
+  `).join('');
 
   const exists = categories.some(c => c.id === currentValue);
-  if (exists) {
-    elements.billCategory.value = currentValue;
+  if (!exists) {
+    elements.billCategory.value = '';
   }
+}
+
+function selectBillCategoryChip(chip) {
+  if (!chip) return;
+  elements.billCategoryChips.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  elements.billCategory.value = chip.dataset.value;
 }
 
 function closeBillModal() {
@@ -933,6 +958,7 @@ function openCategoryModal(category = null) {
   appState.previousFocus = document.activeElement;
 
   renderIconPicker(isEdit ? category.icon : DEFAULT_ICONS[0]);
+  renderColorPicker(isEdit ? category.color : DEFAULT_COLORS[0]);
 
   elements.categoryModal.classList.remove('hidden');
   lockBodyScroll(true);
@@ -948,6 +974,19 @@ function renderIconPicker(selectedIcon) {
       ${icon}
     </button>
   `).join('');
+}
+
+function renderColorPicker(selectedColor) {
+  elements.categoryColorPicker.innerHTML = DEFAULT_COLORS.map(color => `
+    <button type="button" class="color-option ${color === selectedColor ? 'selected' : ''}" data-color="${color}" style="background-color: ${color};" aria-label="选择颜色 ${color}"></button>
+  `).join('');
+}
+
+function selectCategoryColor(colorOption) {
+  if (!colorOption) return;
+  elements.categoryColorPicker.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected'));
+  colorOption.classList.add('selected');
+  elements.categoryColor.value = colorOption.dataset.color;
 }
 
 function closeCategoryModal() {
@@ -1514,6 +1553,13 @@ function bindEvents() {
     openCategoryModal();
   });
 
+  // 分类 chips 选择
+  elements.billCategoryChips.addEventListener('click', (e) => {
+    const chip = e.target.closest('.category-chip');
+    if (!chip) return;
+    selectBillCategoryChip(chip);
+  });
+
   // 图标选择
   elements.categoryIconPicker.addEventListener('click', (e) => {
     const iconOption = e.target.closest('.icon-option');
@@ -1522,6 +1568,13 @@ function bindEvents() {
     document.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('selected'));
     iconOption.classList.add('selected');
     elements.categoryIcon.value = iconOption.dataset.icon;
+  });
+
+  // 颜色选择
+  elements.categoryColorPicker.addEventListener('click', (e) => {
+    const colorOption = e.target.closest('.color-option');
+    if (!colorOption) return;
+    selectCategoryColor(colorOption);
   });
 
   // 分类表单提交

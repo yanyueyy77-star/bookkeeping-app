@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="个人记账Web应用，帮助您记录收支、管理分类、统计财务数据">
-  <meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#0071e3">
   <title>我的记账本</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/auth.css">
@@ -67,6 +67,12 @@
           </div>
         </div>
 
+        <div class="promo-card">
+          <h3>本月结余</h3>
+          <div class="promo-value" id="totalBalance">¥0.00</div>
+          <div class="promo-label">理性消费，智慧理财</div>
+        </div>
+
         <div class="summary-cards">
           <div class="summary-card income">
             <div class="card-label">总收入</div>
@@ -78,7 +84,7 @@
           </div>
           <div class="summary-card balance">
             <div class="card-label">结余</div>
-            <div class="card-value" id="totalBalance">¥0.00</div>
+            <div class="card-value" id="totalBalanceSmall">¥0.00</div>
           </div>
         </div>
 
@@ -259,25 +265,28 @@
       </button>
     </nav>
 
-    <!-- 添加/编辑账单弹窗：包含账单表单，支持新增和编辑操作 -->
+    <!-- 添加/编辑账单底部 Sheet -->
     <div id="billModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="billModalTitle">
       <div class="modal-overlay"></div>
       <div class="modal-content">
+        <div class="sheet-handle"></div>
         <div class="modal-header">
           <h3 id="billModalTitle">记一笔</h3>
           <button class="modal-close" data-close-modal aria-label="关闭">&times;</button>
         </div>
         <form id="billForm" class="bill-form">
           <input type="hidden" id="billId">
-          
-          <div class="form-group type-selector">
-            <button type="button" class="type-btn active" data-type="expense">支出</button>
-            <button type="button" class="type-btn" data-type="income">收入</button>
+          <input type="hidden" id="billCategory" value="">
+
+          <div class="form-group">
+            <div class="segmented-control">
+              <button type="button" class="segment-btn active" data-type="expense">支出</button>
+              <button type="button" class="segment-btn" data-type="income">收入</button>
+            </div>
             <input type="hidden" id="billType" value="expense">
           </div>
 
           <div class="form-group amount-group">
-            <label for="billAmount">金额</label>
             <div class="amount-input-wrapper">
               <span class="currency-symbol">¥</span>
               <input type="number" id="billAmount" step="0.01" min="0.01" placeholder="0.00" required>
@@ -285,20 +294,22 @@
           </div>
 
           <div class="form-group">
-            <label for="billCategory">分类</label>
-            <select id="billCategory" class="form-select" required>
-              <option value="">请选择分类</option>
-            </select>
+            <label>分类</label>
+            <div id="billCategoryChips" class="category-chips">
+              <!-- 分类 chips 由 JS 生成 -->
+            </div>
           </div>
 
           <div class="form-group">
             <label for="billDate">日期</label>
-            <input type="date" id="billDate" class="form-input" required>
+            <div class="date-input-wrapper">
+              <input type="date" id="billDate" required>
+            </div>
           </div>
 
           <div class="form-group">
             <label for="billNote">备注</label>
-            <input type="text" id="billNote" class="form-input" placeholder="可选" maxlength="200">
+            <input type="text" id="billNote" class="note-input" placeholder="写点什么..." maxlength="200">
           </div>
 
           <div class="form-actions">
@@ -309,7 +320,7 @@
       </div>
     </div>
 
-    <!-- 分类表单弹窗：包含分类表单，支持新增和编辑分类 -->
+    <!-- 分类表单弹窗 -->
     <div id="categoryModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="categoryModalTitle">
       <div class="modal-overlay"></div>
       <div class="modal-content">
@@ -320,7 +331,7 @@
         <form id="categoryForm" class="category-form">
           <input type="hidden" id="categoryId">
           <input type="hidden" id="categoryTypeInput" value="expense">
-          
+
           <div class="form-group">
             <label for="categoryName">分类名称</label>
             <input type="text" id="categoryName" class="form-input" placeholder="如：餐饮" required maxlength="20">
@@ -335,8 +346,11 @@
           </div>
 
           <div class="form-group">
-            <label for="categoryColor">颜色</label>
-            <input type="color" id="categoryColor" class="form-color" value="#FF6B6B">
+            <label>颜色</label>
+            <div class="color-picker" id="categoryColorPicker">
+              <!-- 颜色选项由 JS 生成 -->
+            </div>
+            <input type="hidden" id="categoryColor" value="#FF6B6B">
           </div>
 
           <div class="form-actions">
@@ -364,12 +378,12 @@
       </div>
     </div>
 
-    <!-- 提示消息：显示操作成功或失败的轻量反馈 -->
+    <!-- 提示消息 -->
     <div id="toast" class="toast hidden" role="status" aria-live="polite">
       <span id="toastMessage"></span>
     </div>
 
-    <!-- 页面加载指示器：首次加载时显示，提升 perceived performance -->
+    <!-- 页面加载指示器 -->
     <div id="pageLoader" class="page-loader" aria-hidden="true">
       <div class="loader-spinner"></div>
       <p>正在加载...</p>
