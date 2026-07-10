@@ -7,16 +7,47 @@
   <meta name="theme-color" content="#4f46e5">
   <title>我的记账本</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
 </head>
 <body>
+  <!-- 认证视图：未登录时显示登录/注册表单 -->
+  <div id="authView" class="auth-view hidden" role="main" aria-label="登录或注册">
+    <div class="auth-card">
+      <h1 class="app-title">我的记账本</h1>
+      <form id="authForm" class="auth-form">
+        <input type="hidden" id="authMode" value="signin">
+        <div class="form-group">
+          <label for="authEmail">邮箱</label>
+          <input type="email" id="authEmail" class="form-input" placeholder="your@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="authPassword">密码</label>
+          <input type="password" id="authPassword" class="form-input" placeholder="请输入密码" required minlength="6" autocomplete="current-password">
+        </div>
+        <div class="form-group hidden" id="authConfirmPasswordGroup">
+          <label for="authConfirmPassword">确认密码</label>
+          <input type="password" id="authConfirmPassword" class="form-input" placeholder="请再次输入密码" autocomplete="new-password">
+        </div>
+        <div id="authError" class="auth-error" role="alert"></div>
+        <button type="submit" id="authSubmitBtn" class="btn btn-primary btn-block">登录</button>
+      </form>
+      <p class="auth-toggle">
+        <span id="authToggleText">还没有账号？去注册</span>
+        <button type="button" id="authToggleBtn" class="btn btn-text">切换</button>
+      </p>
+    </div>
+  </div>
+
   <!-- 应用容器：包含所有页面视图和交互组件 -->
-  <div id="app" role="application" aria-label="个人记账应用">
+  <div id="app" class="hidden" role="application" aria-label="个人记账应用">
     <!-- 顶部导航栏：固定定位，包含应用标题和主题切换按钮 -->
     <header class="app-header" role="banner">
       <div class="header-left">
         <h1 class="app-title">我的记账本</h1>
       </div>
       <div class="header-right">
+        <span id="currentUserEmail" class="user-email"></span>
+        <button id="logoutBtn" class="btn btn-text btn-sm">退出</button>
         <button id="themeToggle" class="icon-btn" title="切换主题" aria-label="切换主题">
           <span id="themeIcon">🌙</span>
         </button>
@@ -199,7 +230,7 @@
           <h3>关于</h3>
           <div class="setting-item">
             <span>版本</span>
-            <span>v1.0</span>
+            <span>v1.1-firebase</span>
           </div>
         </div>
       </section>
@@ -345,6 +376,14 @@
     </div>
   </div>
 
-  <script src="js/app.js"></script>
+  <!-- Firebase SDK（兼容模式，支持全局 firebase 变量） -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+  <!-- 应用脚本 -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/firebase-service.js"></script>
+  <script src="js/app-firebase.js"></script>
 </body>
 </html>
